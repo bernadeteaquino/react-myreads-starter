@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import './App.css'
 
 class SearchBooks extends Component {
     render() {
-        const { onNavigate } = this.props
-
         return(
             <div className="search-books">
                 <div className="search-books-bar">
-                    <button className="close-search" onClick={onNavigate}>Close</button>
+                    <Link 
+                        to="/"
+                        className="close-search"
+                        >Close</Link>
                     <div className="search-books-input-wrapper">
                         {/*
                         NOTES: The search from BooksAPI is limited to a particular set of search terms.
