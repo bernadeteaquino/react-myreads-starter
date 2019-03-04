@@ -32,7 +32,7 @@ class SearchBooks extends Component {
                   <ol className="books-grid">
                     {this.getBooksByShelf(books, status.key).map((book) => (
                       <li key={book.id}>
-                          <Book book={book}/>
+                          <Book book={book} onChangeBookShelf={this.props.onChangeBookShelf}/>
                       </li>
                     ))}
                   </ol>
