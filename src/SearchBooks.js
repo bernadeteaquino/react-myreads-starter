@@ -7,23 +7,19 @@ import './App.css'
 class SearchBooks extends Component {
     state = {
         books: [],
-        firstRender: true
+        query: ''
     }
 
     search = (query) => {
-        this.setState(() => ({
-            firstRender: false
-        }))
-
-        if (query && query.length > 1) {
-            BooksAPI.search(query)
-            .then((result) => {
-                var books = !('error' in result) ? result : []
-                this.setState(() => ({
-                    books
-                }))
-            })
-        }      
+        
+        BooksAPI.search(query)
+        .then((result) => {
+            var books = result && !('error' in result) ? result : []
+            this.setState(() => ({
+                books,
+                query
+            }))
+        })
     }
 
     render() {
@@ -52,7 +48,7 @@ class SearchBooks extends Component {
                             ))}
                         </ol>
                    )}
-                   {this.state.firstRender === false && this.state.books.length === 0 && (
+                   {this.state.query.length > 0 && this.state.books.length === 0 && (
                        <div className="no-results">
                            Nenhum resultado encontrado!
                         </div>
