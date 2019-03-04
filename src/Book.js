@@ -20,7 +20,7 @@ class Book extends Component {
                     </select>
                 </div>
                 </div>
-                <div className="book-title">{book.title}</div>
+                <div className="book-title">{book.title}- {book.id}</div>
                 <div className="book-authors">{book.authors}</div>
             </div>
         )

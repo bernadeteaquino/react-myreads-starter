@@ -5,19 +5,49 @@ import Book from './Book'
 import './App.css'
 
 class SearchBooks extends Component {
-    state = {
-        books: [],
-        query: ''
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchBooks: [],
+            query: ''
+        }
+
+        this.changeBookShelf = this.changeBookShelf.bind(this);
     }
 
-    search = (query) => {
-        
-        BooksAPI.search(query)
-        .then((result) => {
-            var books = result && !('error' in result) ? result : []
+    getShelfBook(searchBook){
+        return this.props.books.find(book => {
+            return book.id === searchBook.id;
+        });
+    }
+
+    search(query) {
+        BooksAPI.search(query).then((result) => {
+            result = result && !('error' in result) ? result : []
+
+            var searchBooks = result.map((searchBook) => {
+                var shelfBook = this.getShelfBook(searchBook)
+                if (shelfBook !== undefined) {
+                    return shelfBook;
+                } else {
+                    searchBook['shelf'] = 'none'
+                    return searchBook
+                }
+            })
+
             this.setState(() => ({
-                books,
+                searchBooks,
                 query
+            }))
+        })
+    }
+
+    changeBookShelf(book, shelfName) {
+        this.props.onChangeBookShelf(book, shelfName).then(() => {
+            book['shelf'] = shelfName
+
+            this.setState((prevState) => ({
+                searchBooks: prevState.searchBooks
             }))
         })
     }
@@ -39,16 +69,19 @@ class SearchBooks extends Component {
                 </div>
                 
                 <div className="search-books-results">
-                    {this.state.books.length > 0 && (
+                    {this.state.searchBooks.length > 0 && (
                         <ol className="books-grid">
-                            {this.state.books.map((book) => (
+                            {this.state.query.length > 0 && this.state.searchBooks.map((book) => (
                                 <li key={book.id}>
-                                    <Book book={book}/>
+                                    <Book 
+                                        book={book}
+                                        onChangeBookShelf={this.changeBookShelf}
+                                    />
                                 </li>
                             ))}
                         </ol>
                    )}
-                   {this.state.query.length > 0 && this.state.books.length === 0 && (
+                   {this.state.query.length > 0 && this.state.searchBooks.length === 0 && (
                        <div className="no-results">
                            Nenhum resultado encontrado!
                         </div>

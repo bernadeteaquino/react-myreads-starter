@@ -9,8 +9,6 @@ class SearchBooks extends Component {
   }
 
   render() {
-    const { books } = this.props
-
     const shelfStatus = [
       { key: 'currentlyReading', title: 'Currently Reading' },
       { key: 'wantToRead', title: 'Want to Read' },
@@ -30,9 +28,12 @@ class SearchBooks extends Component {
                 <h2 className="bookshelf-title">{status.title}</h2>
                 <div className="bookshelf-books">
                   <ol className="books-grid">
-                    {this.getBooksByShelf(books, status.key).map((book) => (
+                    {this.getBooksByShelf(this.props.books, status.key).map((book) => (
                       <li key={book.id}>
-                          <Book book={book} onChangeBookShelf={this.props.onChangeBookShelf}/>
+                          <Book 
+                            book={book}
+                            onChangeBookShelf={this.props.onChangeBookShelf}
+                          />
                       </li>
                     ))}
                   </ol>
