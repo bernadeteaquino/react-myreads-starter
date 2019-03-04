@@ -15,12 +15,6 @@ class SearchBooks extends Component {
         this.changeBookShelf = this.changeBookShelf.bind(this);
     }
 
-    getShelfBook(searchBook){
-        return this.props.books.find(book => {
-            return book.id === searchBook.id;
-        });
-    }
-
     search(query) {
         BooksAPI.search(query).then((result) => {
             result = result && !('error' in result) ? result : []
@@ -42,6 +36,12 @@ class SearchBooks extends Component {
         })
     }
 
+    getShelfBook(searchBook){
+        return this.props.books.find(book => {
+            return book.id === searchBook.id;
+        });
+    }
+
     changeBookShelf(book, shelfName) {
         this.props.onChangeBookShelf(book, shelfName).then(() => {
             book['shelf'] = shelfName
@@ -49,7 +49,7 @@ class SearchBooks extends Component {
             this.setState((prevState) => ({
                 searchBooks: prevState.searchBooks
             }))
-        })
+        })        
     }
 
     render() {
@@ -80,12 +80,12 @@ class SearchBooks extends Component {
                                 </li>
                             ))}
                         </ol>
-                   )}
-                   {this.state.query.length > 0 && this.state.searchBooks.length === 0 && (
-                       <div className="no-results">
-                           Nenhum resultado encontrado!
-                        </div>
-                   )}
+                )}
+                {this.state.query.length > 0 && this.state.searchBooks.length === 0 && (
+                    <div className="no-results">
+                        Nenhum resultado encontrado!
+                    </div>
+                )}
                 </div>
             </div>
         )

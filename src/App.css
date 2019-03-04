@@ -1,4 +1,4 @@
-html, body, .root {
+html, body, #root {
   height: 100%;
 }
 
@@ -8,6 +8,11 @@ body {
 
 body, .app {
   background: white;
+  height: 100%;
+}
+
+._loading_overlay_wrapper {
+  min-height: 100%;
 }
 
 /* main page */
@@ -200,4 +205,11 @@ button:active {
   padding: 20px 10px 0;
   text-align: center;
   font-size: 0.8em;
+}
+
+.book-cover img {
+  max-width: 128px;
+  max-height: 193px;
+  min-width: 128px;
+  min-height: 193px;
 }
