@@ -7,19 +7,13 @@ import './App.css'
 
 class BooksApp extends React.Component {
   state = {
-    booksOnTheShelf: {}
+    books: []
   }
 
   componentDidMount() {
-    BooksAPI.getAll().then((result) => {
-      const booksOnTheShelf = {};
-      result.forEach(book => {
-        booksOnTheShelf[book.shelf] = booksOnTheShelf[book.shelf] || []
-        booksOnTheShelf[book.shelf].push(book) 
-      });
-
+    BooksAPI.getAll().then((books) => {
       this.setState(() => ({
-        booksOnTheShelf
+        books
       }))
     })
   }
@@ -29,7 +23,7 @@ class BooksApp extends React.Component {
       <div className="app">
         <Route exact path='/' render={() => (
           <ListBooks
-            booksOnTheShelf={this.state.booksOnTheShelf}
+            books={this.state.books}
           />
         )} />
         <Route exact path="/search" component={SearchBooks}/>

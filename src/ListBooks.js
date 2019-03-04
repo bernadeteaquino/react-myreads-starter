@@ -4,13 +4,17 @@ import Book from './Book'
 import './App.css'
 
 class SearchBooks extends Component {
-  render() {
-    const { booksOnTheShelf } = this.props
+  getBooksByShelf(books, shelfName) {
+    return books.filter(book => book.shelf === shelfName);
+  }
 
-    const status = [
-      { status: 'currentlyReading', title: 'Currently Reading' },
-      { status: 'wantToRead', title: 'Want to Read' },
-      { status: 'read', title: 'Read' }
+  render() {
+    const { books } = this.props
+
+    const shelfStatus = [
+      { key: 'currentlyReading', title: 'Currently Reading' },
+      { key: 'wantToRead', title: 'Want to Read' },
+      { key: 'read', title: 'Read' }
     ];
 
     return (
@@ -20,18 +24,13 @@ class SearchBooks extends Component {
         </div>
 
         <div className="list-books-content">
-          {status.map((value) => {
-
-console.log(booksOnTheShelf)
-             console.log(Object.keys(booksOnTheShelf).length)
-             console.log(value.status)
+          {shelfStatus.map((status) => {
             return (
-             
-              <div className="bookshelf" key={value.status}>
-                <h2 className="bookshelf-title">{value.title}</h2>
+              <div className="bookshelf" key={status.key}>
+                <h2 className="bookshelf-title">{status.title}</h2>
                 <div className="bookshelf-books">
                   <ol className="books-grid">
-                    {Object.keys(booksOnTheShelf).length !== 0 && booksOnTheShelf[value.status].map((book) => (
+                    {this.getBooksByShelf(books, status.key).map((book) => (
                       <li key={book.id}>
                           <Book book={book}/>
                       </li>
@@ -47,7 +46,6 @@ console.log(booksOnTheShelf)
               to="/search"
               >Add a book</Link>
           </div>
-
         </div>
       </div>
   )}
