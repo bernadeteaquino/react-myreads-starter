@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
+import PropTypes from 'prop-types';
 import Book from './Book'
 import './App.css'
 
@@ -14,6 +15,11 @@ class SearchBooks extends Component {
 
         this.changeBookShelf = this.changeBookShelf.bind(this);
     }
+
+    static propTypes = {
+        books: PropTypes.array.isRequired,
+        onChangeBookShelf: PropTypes.func.isRequired
+    };
 
     search(query) {
         BooksAPI.search(query).then((result) => {
