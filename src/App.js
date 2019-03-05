@@ -10,8 +10,8 @@ class BooksApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: [],
-      isLoading: true
+        books: [],
+        isLoading: true
     }
 
     this.changeBookShelfAndRefresh = this.changeBookShelfAndRefresh.bind(this);
@@ -24,46 +24,46 @@ class BooksApp extends React.Component {
 
   getAllBooks() {
     BooksAPI.getAll().then((books) => {
-      this.setState(() => ({
-        books,
-        isLoading: false
-      }))
+        this.setState(() => ({
+            books,
+            isLoading: false
+        }))
     })
   }
 
   setAsLoading() {
     this.setState(() => ({
-      isLoading: true
+        isLoading: true
     }))
   }
 
   changeBookShelfAndRefresh(book, shelfName){
     this.setAsLoading()
     return BooksAPI.update(book, shelfName).then(() => {
-      this.getAllBooks()
+        this.getAllBooks()
     })
   }
 
   render() {
     return (
-      <div className="app">
+        <div className="app">
         <LoadingOverlay
-          active={this.state.isLoading}
-          spinner>
-          <Route exact path='/' render={() => (
-              <ListBooks
-                books={this.state.books}
-                onChangeBookShelf={this.changeBookShelfAndRefresh}
-              />
-          )}/>
-          <Route exact path="/search" render={() => (
-            <SearchBooks
-              books={this.state.books}
-              onChangeBookShelf={this.changeBookShelfAndRefresh}
-            />
-          )}/>
+            active={this.state.isLoading}
+            spinner>
+            <Route exact path='/' render={() => (
+                <ListBooks
+                    books={this.state.books}
+                    onChangeBookShelf={this.changeBookShelfAndRefresh}
+                />
+            )}/>
+            <Route exact path="/search" render={() => (
+                <SearchBooks
+                    books={this.state.books}
+                    onChangeBookShelf={this.changeBookShelfAndRefresh}
+                />
+            )}/>
         </LoadingOverlay>
-      </div>      
+        </div>
     )
   }
 }
